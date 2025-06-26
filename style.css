@@ -1,0 +1,73 @@
+/* General Reset and Body Styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: linear-gradient(50deg, #F9F4FB, #F9F4FB); /* Light gradient */
+      font-family: 'Roboto', sans-serif; /* Modern and premium font */
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+   
+
+    /* Main Content Styling */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 {
+      font-size: 2rem;
+      color: #444;
+      margin-bottom: 20px;
+    }
+    .video-container {
+      display: inline-block;
+      background-color: #ffffff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 2px solid #f0f8ff; /* Soft border to match background */
+    }
+    video {
+      display: block;
+      width: 100%; /* Video will scale automatically to fit the container */
+      height: auto; /* Maintain original video proportions */
+      border-radius: 18px; /* Match container border-radius */
+    }
+
+
+    /* Footer Styling */
+    footer {
+      background: linear-gradient(135deg, #0D5051, #93FD70);
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.2);
+    }
+    footer p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    .small-image {
+  position: center;
+  top: 0px; /* Jarak dari atas */
+  left: 0px; /* Jarak dari kiri */
+  width: 200px; /* Lebar kotak gambar */
+  height: 100px; /* Tinggi kotak gambar */
+  
+}
+
+.small-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Agar gambar menyesuaikan ukuran kotak */
+}
