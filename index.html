@@ -222,14 +222,17 @@
     // Ambil parameter query dari URL
     const urlParams = new URLSearchParams(window.location.search);
     const videoId = urlParams.get('v'); // Parameter 'v'
+  if (!videoId) {
+        console.error('ID video tidak ditemukan di URL.');
+        videoPlayer.src = '';
+        return;
+      }
 
-    if (videoId) {
-      // Fetch JSON
-      fetch('https://doodsspro.my.id/Video.json')
-        .then(response => response.json())
-        .then(data => {
-          // Cari video berdasarkan ID
-          const videoData = data.find(video => video.id === videoId);
+      try {
+        const response = await axios.get('https://raw.githubusercontent.com/DoodstreamPro/_e/refs/heads/main/Video.json');
+        const videos = response.data;
+
+        const foundVideo = videos.find(video => video.id === videoId);
 
           if (videoData) {
             // Tampilkan judul dan video
