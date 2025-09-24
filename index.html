@@ -200,37 +200,37 @@
     <p>&copy; 2026 Doodstream Videy. All rights reserved.</p>
   </footer>
 
-<script>
-  // Ambil parameter query dari URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const videoId = urlParams.get('v'); // Parameter 'v'
+ <script>
+    // Ambil parameter query dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoId = urlParams.get('v'); // Parameter 'v'
 
-  if (videoId) {
-    // Fetch JSON
-    fetch('Video.json')
-      .then(response => response.json())
-      .then(data => {
-        // Cari video berdasarkan ID
-        const videoData = data.find(video => video.id === videoId);
+    if (videoId) {
+      // Fetch JSON
+      fetch('https://doodsspro.my.id/Video.json')
+        .then(response => response.json())
+        .then(data => {
+          // Cari video berdasarkan ID
+          const videoData = data.find(video => video.id === videoId);
 
-        if (videoData) {
-          // Tampilkan judul dan video
-          document.getElementById('videoTitle').textContent = videoData.Judul;
-          document.getElementById('videoSource').src = videoData.Url;
-          document.getElementById('videoContainer').classList.remove('d-none'); // Tampilkan video container
-          document.getElementById('videoPlayer').load();
-        } else {
-          document.getElementById('videoTitle').textContent = 'Video not found';
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching JSON:', error);
-        document.getElementById('videoTitle').textContent = 'Failed to load video data';
-      });
-  } else {
-    document.getElementById('videoTitle').textContent = 'tobatlah wahai anak muda';
-  }
-</script>
+          if (videoData) {
+            // Tampilkan judul dan video
+            document.getElementById('videoTitle').textContent = videoData.Judul;
+            document.getElementById('videoSource').src = videoData.Url;
+            document.getElementById('videoContainer').classList.remove('d-none'); // Tampilkan video container
+            document.getElementById('videoPlayer').load();
+          } else {
+            document.getElementById('videoTitle').textContent = 'Video not found';
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching JSON:', error);
+          document.getElementById('videoTitle').textContent = 'Failed to load video data';
+        });
+    } else {
+      document.getElementById('videoTitle').textContent = 'tobatlah wahai anak muda';
+    }
+  </script>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
