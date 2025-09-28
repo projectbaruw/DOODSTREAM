@@ -411,42 +411,61 @@
   (function() {
     function detectAdBlockExtension() {
       return new Promise((resolve) => {
-        const bait = document.createElement("div");
-        bait.className = "adsbox ad-banner ad-unit text-ad ad-zone";
-        bait.style.width = "1px";
-        bait.style.height = "1px";
-        bait.style.position = "absolute";
-        bait.style.left = "-9999px";
-        bait.style.top = "-9999px";
-        bait.style.visibility = "hidden";
-        document.body.appendChild(bait);
+        // Buat beberapa elemen bait dengan nama yang kurang mencurigakan
+        const baits = [
+          { id: 'content-checker', classes: 'content-module check-item' },
+          { id: 'data-widget', classes: 'widget-container data-unit' }
+        ];
         
-        // Tambah waktu deteksi menjadi 500ms
+        baits.forEach(bait => {
+          const el = document.createElement("div");
+          el.id = bait.id;
+          el.className = bait.classes;
+          el.style.width = "1px";
+          el.style.height = "1px";
+          el.style.position = "absolute";
+          el.style.left = "-9999px";
+          el.style.top = "-9999px";
+          el.style.visibility = "hidden";
+          document.body.appendChild(el);
+        });
+        
+        // Tunda deteksi lebih lama (1000ms)
         setTimeout(() => {
-          const isBlocked = 
-            !bait.parentElement || 
-            bait.offsetParent === null || 
-            window.getComputedStyle(bait).display === "none" ||
-            bait.offsetHeight === 0 || 
-            bait.offsetWidth === 0 ||
-            bait.clientHeight === 0 || 
-            bait.clientWidth === 0;
-          if (bait.parentElement) {
-            document.body.removeChild(bait);
-          }
+          let isBlocked = false;
+          baits.forEach(bait => {
+            const el = document.getElementById(bait.id);
+            if (el) {
+              const rect = el.getBoundingClientRect();
+              isBlocked = isBlocked || 
+                !el.parentElement || 
+                el.offsetParent === null || 
+                window.getComputedStyle(el).display === "none" ||
+                el.offsetHeight === 0 || 
+                el.offsetWidth === 0 || 
+                el.clientHeight === 0 || 
+                el.clientWidth === 0 ||
+                rect.width === 0 || 
+                rect.height === 0;
+              if (el.parentElement) {
+                document.body.removeChild(el);
+              }
+            }
+          });
           resolve(isBlocked);
-        }, 500);
+        }, 1000);
       });
     }
     
     function detectDnsBlock() {
-      // Gunakan beberapa URL untuk deteksi
+      // Gunakan URL yang lebih netral atau lokal jika memungkinkan
       const adUrls = [
+        'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js', // AdSense
         'https://facultativethus.com/e57ns91yz8?key=06ab55d13d86b8641e906b3b87eb6915',
-        'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js', // Contoh URL AdSense
+        // Tambahkan URL lokal jika ada, misalnya: '/ads/dummy.js'
       ];
       
-      return Promise.any(adUrls.map(url => 
+      return Promise.all(adUrls.map(url => 
         fetch(url, { method: 'HEAD', mode: 'no-cors', cache: 'no-store' })
           .then(() => false)
           .catch(() => true)
@@ -526,7 +545,7 @@
         <style>${styles}</style>
         <div class="adblock-popup">
           <h2>Pemblokir Iklan Terdeteksi</h2>
-          <p>Untuk menonton video ini, harap matikan pemblokir iklan atau DNS adblock. Alternatifnya, gunakan browser seperti Chrome tanpa adblock.</p>
+          <p>Untuk menonton video ini, harap matikan pemblokir iklan atau DNS adblock. Coba nonaktifkan Brave Shields atau AdGuard, atau gunakan browser seperti Chrome.</p>
           <button id="refresh-page-btn">Saya Akan Coba di Chrome</button>
         </div>
       `;
